@@ -7,41 +7,31 @@ export default function Pagina(props) {
                 <Container>
                     <Navbar.Brand href="/">Fundamentos</Navbar.Brand>
                     <Nav className="me-auto">
-                        <NavDropdown title="Filmes" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/filmes/categoria/popular">
-                               Populares
-                            </NavDropdown.Item>
+                        <NavDropdown title="Empresas" id="basic-nav-dropdown">
+                            <NavDropdown.Item href="/empresas">Listar</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="/filmes/categoria/now_playing">
-                               Em cartaz
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/filmes/categoria/upcoming">
-                                Em Breve
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/filmes/categoria/top_rated">
-                                Bem avaliados
-                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/empresas/create">Nova Empresa</NavDropdown.Item>
                         </NavDropdown>
-                        <NavDropdown title="Séries" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/series/categoria/popular">
-                               Populares
-                            </NavDropdown.Item>
+                        <NavDropdown title="Aeroportos" id="basic-nav-dropdown">
+                            <NavDropdown.Item href="/aeroportos">Listar</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="/series/categoria/on_the_air">
-                               No ar
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/series/categoria/airing_today">
-                                Estreando
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/series/categoria/top_rated">
-                                Bem avaliados
-                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/aeroportos/create">Novo Aeroporto</NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link href="/atores">Atores</Nav.Link>
+                        <NavDropdown title="Voos" id="basic-nav-dropdown">
+                            <NavDropdown.Item href="/voos">Listar</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="/voos/create">Novo Voo</NavDropdown.Item>
+                        </NavDropdown>
+                        <NavDropdown title="Passageiros" id="basic-nav-dropdown">
+                            <NavDropdown.Item href="/passageiros">Listar</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="/passageiros/create">Novo Passageiro</NavDropdown.Item>
+                        </NavDropdown>
+                        <NavDropdown title="Passagens" id="basic-nav-dropdown">
+                            <NavDropdown.Item href="/passagens">Listar</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="/passagens/create">Nova Passagem</NavDropdown.Item>
+                        </NavDropdown>
                     </Nav>
                 </Container>
             </Navbar>
@@ -54,5 +44,5 @@ export default function Pagina(props) {
                 {props.children}
             </Container>
         </>
-    )
+    );
 }
