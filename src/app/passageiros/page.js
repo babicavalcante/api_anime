@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Table } from "react-bootstrap";
 import { FaPlusCircle } from "react-icons/fa";
 import Pagina from "../components/Pagina";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 export default function Passageiros() {
     const passageiros = JSON.parse(localStorage.getItem('passageiros')) || [];
@@ -13,6 +15,7 @@ export default function Passageiros() {
             <Link href="/passageiros/create" className="btn btn-primary mb-3">
                 <FaPlusCircle /> Novo
             </Link>
+
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -22,9 +25,13 @@ export default function Passageiros() {
                     </tr>
                 </thead>
                 <tbody>
-                    {passageiros.map((item, index) => (
-                        <tr key={index}>
-                            <td>{index + 1}</td>
+                    {passageiros.map((item, i) => (
+                        <tr key={i}>
+                            <td>
+                                {i} - 
+                                <FaRegEdit className="text-primary" />
+                                <MdDelete className="text-danger" />
+                            </td>
                             <td>{item.nome}</td>
                             <td>{item.documento}</td>
                         </tr>
