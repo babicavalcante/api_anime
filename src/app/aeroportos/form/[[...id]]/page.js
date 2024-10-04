@@ -1,4 +1,4 @@
-'use client';
+'use client'; 
 
 import Pagina from "@/app/components/Pagina";
 import { Formik } from "formik";
@@ -7,21 +7,34 @@ import { useRouter } from "next/navigation";
 import { Button, Form } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
 import { MdOutlineArrowBack } from "react-icons/md";
+import { v4 } from "uuid";
 
-export default function CreateAeroporto() {
-    const router = useRouter();
+export default function Page({ params }) {
 
+    const route = useRouter()
+
+    const aeroportos = JSON.parse(localStorage.getItem('aeroportos')) || []
+    const dados = aeroportos.find(item => item.id == params.id)
+    const aeroporto = dados || { nome: '', localizacao: '' }
+    
     function salvar(dados) {
-        const aeroportos = JSON.parse(localStorage.getItem('aeroportos')) || [];
-        aeroportos.push(dados);
-        localStorage.setItem('aeroportos', JSON.stringify(aeroportos));
-        router.push('/aeroportos');
+
+        if(aeroporto.id){
+            Object.assign(aeroporto, dados)
+        } else {
+            dados.id = v4()
+            aeroportos.push(dados)
+        }
+
+        localStorage.setItem('aeroportos', JSON.stringify(aeroportos))
+        return route.push('/aeroportos')
     }
 
     return (
-        <Pagina titulo="Novo Aeroporto">
+        <Pagina titulo="Aeroportos">
+
             <Formik
-                initialValues={{ nome: '', localizacao: '' }}
+                initialValues={aeroporto}
                 onSubmit={values => salvar(values)}
             >
                 {({
@@ -37,7 +50,6 @@ export default function CreateAeroporto() {
                                 name="nome"
                                 value={values.nome}
                                 onChange={handleChange('nome')}
-                                required
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="localizacao">
@@ -47,7 +59,6 @@ export default function CreateAeroporto() {
                                 name="localizacao"
                                 value={values.localizacao}
                                 onChange={handleChange('localizacao')}
-                                required
                             />
                         </Form.Group>
                         <div className="text-center">
