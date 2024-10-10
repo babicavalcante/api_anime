@@ -1,12 +1,13 @@
-'use client';
+'use client'
 
-import Link from "next/link";
-import { FaPlusCircle} from "react-icons/fa";
-import { Table } from "react-bootstrap";
-import Pagina from "../components/Pagina";
+
+import Link from "next/link"
 import { useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
+import { Table } from "react-bootstrap"
+import { FaPlusCircle } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import Pagina from "../components/Pagina";
 
 export default function Page() {
 
@@ -27,22 +28,28 @@ export default function Page() {
     return (
         <Pagina titulo="Aeroportos">
 
-            <Link href="/aeroportos/form" className="btn btn-primary mb-3">
+            <Link
+                href="/aeroportos/form"
+                className="btn btn-primary mb-3"
+            >
                 <FaPlusCircle /> Novo
             </Link>
-            
+
             <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
-                        <th>Localização</th>
+                        <th>Sigla</th>
+                        <th>País</th>
+                        <th>Uf</th>
+                        <th>Cidade</th>
                     </tr>
                 </thead>
                 <tbody>
                     {aeroportos.map((item, i) => (
                         <tr key={item.id}>
-                             <td>
+                            <td>
                                 <Link href={`/aeroportos/form/${item.id}`}>
                                     <FaRegEdit title="Editar" className="text-primary" />
                                 </Link>
@@ -53,11 +60,14 @@ export default function Page() {
                                 />
                             </td>
                             <td>{item.nome}</td>
-                            <td>{item.localizacao}</td>
+                            <td>{item.sigla}</td>
+                            <td>{item.pais}</td>
+                            <td>{item.uf}</td>
+                            <td>{item.cidade}</td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
         </Pagina>
-    );
+    )
 }
