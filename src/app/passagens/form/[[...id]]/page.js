@@ -14,8 +14,8 @@ export default function Page({ params }) {
     const route = useRouter();
 
     const passagens = JSON.parse(localStorage.getItem('passagens')) || [];
-    const dados = params.id ? passagens.find(item => item.id === params.id) : null;
-    const passagem = dados || { passageiro: '', voo: '', data: '' };
+    const dados = passagens.find(item => item.id == params.id)
+    const passagem = dados || { id: '', passageiro: '', voo: '', assento: '', preco: '' };
 
     const [voos, setVoos] = useState([]);
     const [passageiros, setPassageiros] = useState([]);
@@ -79,13 +79,22 @@ export default function Page({ params }) {
                                 ))}
                             </Form.Select>
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="data">
-                            <Form.Label>Data</Form.Label>
+                        <Form.Group className="mb-3" controlId="assento">
+                            <Form.Label>Assento</Form.Label>
                             <Form.Control
-                                type="date"
-                                name="data"
-                                value={values.data}
-                                onChange={handleChange('data')}
+                                type="text"
+                                name="assento"
+                                value={values.assento}
+                                onChange={handleChange('assento')}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="preco">
+                            <Form.Label>Preço</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="preco"
+                                value={values.preco}
+                                onChange={handleChange('preco')}
                             />
                         </Form.Group>
                         <div className="text-center">

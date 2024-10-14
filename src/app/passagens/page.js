@@ -37,15 +37,14 @@ export default function Passagens() {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Identificador</th>
                         <th>Passageiro</th>
                         <th>Voo</th>
-                        <th>Data</th>
+                        <th>Assento</th>
                         <th>Preço</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {passagens.map((item, index) => (
+                    {passagens.map((item, i) => (
                         <tr key={item.id}>
                             <td>
                                 <Link href={`/passagens/form/${item.id}`}>
@@ -57,10 +56,9 @@ export default function Passagens() {
                                     onClick={() => excluir(item.id)}
                                 />
                             </td>
-                            <td>{item.identificador}</td>
                             <td>{item.passageiro}</td>
                             <td>{item.voo}</td>
-                            <td>{item.data}</td>
+                            <td>{item.assento}</td>
                             <td>{item.preco}</td>
                         </tr>
                     ))}
