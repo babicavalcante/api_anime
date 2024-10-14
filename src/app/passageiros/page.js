@@ -1,21 +1,32 @@
 'use client'
 
-import Link from "next/link"
-import { Table } from "react-bootstrap"
-import { FaPlusCircle } from "react-icons/fa";
-import { FaRegEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
+import { FaPlusCircle } from "react-icons/fa"; 
+import { FaRegEdit } from "react-icons/fa"; 
+import { MdDelete } from "react-icons/md"; 
 import Pagina from "../components/Pagina";
 
 export default function Page() {
+    const [passageiros, setPassageiros] = useState([]);
 
-    const passageiros = JSON.parse(localStorage.getItem('passageiros')) || []
+    useEffect(() => {
+        setPassageiros(JSON.parse(localStorage.getItem('passageiros')) || []);
+    }, []);
+
+    function excluir(id) {
+        if (confirm('Deseja realmente excluir o registro?')) {
+            const dados = passageiros.filter(item => item.id !== id);
+            localStorage.setItem('passageiros', JSON.stringify(dados));
+            setPassageiros(dados);
+        }
+    }
 
     return (
         <Pagina titulo="Passageiros">
-
             <Link
-                href="/passageiros/create"
+                href="/passageiros/form"
                 className="btn btn-primary mb-3"
             >
                 <FaPlusCircle /> Novo
@@ -26,27 +37,33 @@ export default function Page() {
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
-                        <th>Logo</th>
+                        <th>Telefone</th>
+                        <th>Passagem</th>
+                        <th>Aeroporto</th>
                     </tr>
                 </thead>
                 <tbody>
                     {passageiros.map((item, i) => (
-                        <tr key={i}>
+                        <tr key={item.id}>
                             <td>
-                                {i} - 
-                                <FaRegEdit className="text-primary" />
-                                <MdDelete className="text-danger" />
+                                <Link href={`/passageiros/form/${item.id}`}>
+                                    <FaRegEdit title="Editar" className="text-primary" />
+                                </Link>
+                                <MdDelete
+                                    title="Excluir"
+                                    className="text-danger"
+                                    onClick={() => excluir(item.id)}
+                                />
                             </td>
                             <td>{item.nome}</td>
-                            <td>
-                                <a href={item.site} target="_blank">
-                                    <img src={item.logo} width={100} />
-                                </a>
-                            </td>
+                            <td>{item.telefone}</td>
+                            <td>{item.passagem}</td>
+                            <td>{item.aeroporto}</td>
+                            <td>{item.aeroporto}</td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
         </Pagina>
-    )
+    );
 }
