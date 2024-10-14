@@ -37,9 +37,11 @@ export default function Page() {
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
+                        <th>tipo documento</th>
+                        <th>documento</th>
+                        <th>email</th>
                         <th>Telefone</th>
-                        <th>Passagem</th>
-                        <th>Aeroporto</th>
+                        <th>data nascimento</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,10 +58,11 @@ export default function Page() {
                                 />
                             </td>
                             <td>{item.nome}</td>
+                            <td>{item.tipo_documento}</td>
+                            <td>{item.documento}</td>
+                            <td>{item.email}</td>
                             <td>{item.telefone}</td>
-                            <td>{item.passagem}</td>
-                            <td>{item.aeroporto}</td>
-                            <td>{item.aeroporto}</td>
+                            <td>{item.data_nascimento}</td>
                         </tr>
                     ))}
                 </tbody>
