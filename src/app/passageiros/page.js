@@ -1,18 +1,23 @@
-'use client';
+'use client'
 
-import Link from "next/link";
-import { Table } from "react-bootstrap";
+import Link from "next/link"
+import { Table } from "react-bootstrap"
 import { FaPlusCircle } from "react-icons/fa";
-import Pagina from "../components/Pagina";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import Pagina from "../components/Pagina";
 
-export default function Passageiros() {
-    const passageiros = JSON.parse(localStorage.getItem('passageiros')) || [];
+export default function Page() {
+
+    const passageiros = JSON.parse(localStorage.getItem('passageiros')) || []
 
     return (
         <Pagina titulo="Passageiros">
-            <Link href="/passageiros/create" className="btn btn-primary mb-3">
+
+            <Link
+                href="/passageiros/create"
+                className="btn btn-primary mb-3"
+            >
                 <FaPlusCircle /> Novo
             </Link>
 
@@ -21,7 +26,7 @@ export default function Passageiros() {
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
-                        <th>Documento</th>
+                        <th>Logo</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,11 +38,15 @@ export default function Passageiros() {
                                 <MdDelete className="text-danger" />
                             </td>
                             <td>{item.nome}</td>
-                            <td>{item.documento}</td>
+                            <td>
+                                <a href={item.site} target="_blank">
+                                    <img src={item.logo} width={100} />
+                                </a>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
         </Pagina>
-    );
+    )
 }
