@@ -7,31 +7,17 @@ export default function Pagina(props) {
                 <Container>
                     <Navbar.Brand href="/">Fundamentos</Navbar.Brand>
                     <Nav className="me-auto">
-                        <NavDropdown title="Empresas" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/empresas">Listar</NavDropdown.Item>
+                        <NavDropdown title="Backend" id="basic-nav-dropdown">
+                            <NavDropdown.Item href="/backend/empresas">
+                               Empresas
+                            </NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="/empresas/create">Nova Empresa</NavDropdown.Item>
                         </NavDropdown>
-                        <NavDropdown title="Aeroportos" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/aeroportos">Listar</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/aeroportos/create">Novo Aeroporto</NavDropdown.Item>
-                        </NavDropdown>
-                        <NavDropdown title="Voos" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/voos">Listar</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/voos/create">Novo Voo</NavDropdown.Item>
-                        </NavDropdown>
-                        <NavDropdown title="Passageiros" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/passageiros">Listar</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/passageiros/create">Novo Passageiro</NavDropdown.Item>
-                        </NavDropdown>
-                        <NavDropdown title="Passagens" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/passagens">Listar</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/passagens/create">Nova Passagem</NavDropdown.Item>
-                        </NavDropdown>
+                        <Nav.Link href="/empresas">Empresas</Nav.Link>
+                        <Nav.Link href="/aeroportos">Aeroportos</Nav.Link>
+                        <Nav.Link href="/voos">Voos</Nav.Link>
+                        <Nav.Link href="/passagens">Passagens</Nav.Link>
+                        <Nav.Link href="/passageiros">Passageiros</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
@@ -44,5 +30,5 @@ export default function Pagina(props) {
                 {props.children}
             </Container>
         </>
-    );
+    )
 }
