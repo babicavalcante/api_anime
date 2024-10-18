@@ -1,6 +1,7 @@
 'use client'
 
 import Pagina from "@/app/components/Pagina";
+import VooValidator from "@/app/validators/VooValidator";
 import { Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,62 +12,68 @@ import { MdOutlineArrowBack } from "react-icons/md";
 import { v4 } from "uuid";
 
 export default function Page({ params }) {
+    const route = useRouter();
+    const voos = JSON.parse(localStorage.getItem('voos')) || [];
+    const dados = voos.find(item => item.id == params.id);
+    const voo = dados || { identificador: '', empresa: '', origem: '', destino: '', preco: '', data_checkin: '', data_embarque: '' };
 
-    const route = useRouter()
-
-    const voos = JSON.parse(localStorage.getItem('voos')) || []
-    const dados = voos.find(item => item.id == params.id)
-    const voo = dados || { nome: '', logo: '', site: '' }
-
-    const [empresas, setEmpresas] = useState([])
-    const [aeroportos, setAeroportos] = useState([])
+    const [empresas, setEmpresas] = useState([]);
+    const [aeroportos, setAeroportos] = useState([]);
 
     useEffect(() => {
-        setEmpresas(JSON.parse(localStorage.getItem('empresas')) || [])
-        setAeroportos(JSON.parse(localStorage.getItem('aeroportos')) || [])
-    }, [])
+        setEmpresas(JSON.parse(localStorage.getItem('empresas')) || []);
+        setAeroportos(JSON.parse(localStorage.getItem('aeroportos')) || []);
+    }, []);
 
     function salvar(dados) {
-
         if (voo.id) {
-            Object.assign(voo, dados)
+            Object.assign(voo, dados);
         } else {
-            dados.id = v4()
-            voos.push(dados)
+            dados.id = v4();
+            voos.push(dados);
         }
 
-        localStorage.setItem('voos', JSON.stringify(voos))
-        return route.push('/voos')
+        localStorage.setItem('voos', JSON.stringify(voos));
+        return route.push('/voos');
     }
 
     return (
         <Pagina titulo="Voos">
-
             <Formik
                 initialValues={voo}
-                onSubmit={values => salvar(values)}
+                validationSchema={VooValidator} // Usando o validador
+                onSubmit={(values, { setSubmitting }) => {
+                    salvar(values);
+                    setSubmitting(false);
+                }}
             >
                 {({
                     values,
                     handleChange,
                     handleSubmit,
+                    errors,
                 }) => (
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="identificador">
                             <Form.Label>Identificador</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="identificador"
                                 value={values.identificador}
-                                onChange={handleChange('identificador')}
+                                onChange={handleChange}
+                                isInvalid={errors.identificador}
                             />
+                            <Form.Control.Feedback type="invalid">
+                                {errors.identificador}
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="empresa">
                             <Form.Label>Empresa</Form.Label>
                             <Form.Select
                                 name="empresa"
                                 value={values.empresa}
-                                onChange={handleChange('empresa')}
+                                onChange={handleChange}
+                                isInvalid={errors.empresa}
                             >
                                 <option value=''>Selecione</option>
                                 {empresas.map(item => (
@@ -75,13 +82,15 @@ export default function Page({ params }) {
                                     </option>
                                 ))}
                             </Form.Select>
+                            <div className="text-danger">{errors.empresa}</div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="origem">
                             <Form.Label>Origem</Form.Label>
                             <Form.Select
                                 name="origem"
                                 value={values.origem}
-                                onChange={handleChange('origem')}
+                                onChange={handleChange}
+                                isInvalid={errors.origem}
                             >
                                 <option value=''>Selecione</option>
                                 {aeroportos.map(item => (
@@ -90,13 +99,15 @@ export default function Page({ params }) {
                                     </option>
                                 ))}
                             </Form.Select>
+                            <div className="text-danger">{errors.origem}</div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="destino">
                             <Form.Label>Destino</Form.Label>
                             <Form.Select
                                 name="destino"
                                 value={values.destino}
-                                onChange={handleChange('destino')}
+                                onChange={handleChange}
+                                isInvalid={errors.destino}
                             >
                                 <option value=''>Selecione</option>
                                 {aeroportos.map(item => (
@@ -105,6 +116,7 @@ export default function Page({ params }) {
                                     </option>
                                 ))}
                             </Form.Select>
+                            <div className="text-danger">{errors.destino}</div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="preco">
                             <Form.Label>Preço</Form.Label>
@@ -112,8 +124,10 @@ export default function Page({ params }) {
                                 type="text"
                                 name="preco"
                                 value={values.preco}
-                                onChange={handleChange('preco')}
+                                onChange={handleChange}
+                                isInvalid={errors.preco}
                             />
+                            <div className="text-danger">{errors.preco}</div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="data_checkin">
                             <Form.Label>dt. Checkin</Form.Label>
@@ -121,8 +135,10 @@ export default function Page({ params }) {
                                 type="date"
                                 name="data_checkin"
                                 value={values.data_checkin}
-                                onChange={handleChange('data_checkin')}
+                                onChange={handleChange}
+                                isInvalid={errors.data_checkin}
                             />
+                            <div className="text-danger">{errors.data_checkin}</div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="data_embarque">
                             <Form.Label>Dt. embarque</Form.Label>
@@ -130,11 +146,13 @@ export default function Page({ params }) {
                                 type="date"
                                 name="data_embarque"
                                 value={values.data_embarque}
-                                onChange={handleChange('data_embarque')}
+                                onChange={handleChange}
+                                isInvalid={errors.data_embarque}
                             />
+                            <div className="text-danger">{errors.data_embarque}</div>
                         </Form.Group>
                         <div className="text-center">
-                            <Button onClick={handleSubmit} variant="success">
+                            <Button type="submit" variant="success">
                                 <FaCheck /> Salvar
                             </Button>
                             <Link
