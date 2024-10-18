@@ -1,6 +1,7 @@
 'use client';
 
 import Pagina from "@/app/components/Pagina";
+import PassagensValidator from "@/app/validators/PassagemValidator";
 import { Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -41,12 +42,14 @@ export default function Page({ params }) {
         <Pagina titulo="Passagens">
             <Formik
                 initialValues={passagem}
+                validationSchema={PassagensValidator}
                 onSubmit={values => salvar(values)}
             >
                 {({
                     values,
                     handleChange,
                     handleSubmit,
+                    errors
                 }) => (
                     <Form>
                         <Form.Group className="mb-3" controlId="passageiro">
@@ -55,6 +58,7 @@ export default function Page({ params }) {
                                 name="passageiro"
                                 value={values.passageiro}
                                 onChange={handleChange('passageiro')}
+                                isInvalid={errors.passageiro}
                             >
                                 <option value=''>Selecione</option>
                                 {passageiros.map(item => (
@@ -63,6 +67,9 @@ export default function Page({ params }) {
                                     </option>
                                 ))}
                             </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                                    {errors.passageiro}
+                                </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="voo">
                             <Form.Label>Voo</Form.Label>
@@ -70,6 +77,7 @@ export default function Page({ params }) {
                                 name="voo"
                                 value={values.voo}
                                 onChange={handleChange('voo')}
+                                isInvalid={errors.voo}
                             >
                                 <option value=''>Selecione</option>
                                 {voos.map(item => (
@@ -78,6 +86,7 @@ export default function Page({ params }) {
                                     </option>
                                 ))}
                             </Form.Select>
+                            <div className="text-danger">{errors.voo}</div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="assento">
                             <Form.Label>Assento</Form.Label>
@@ -86,7 +95,9 @@ export default function Page({ params }) {
                                 name="assento"
                                 value={values.assento}
                                 onChange={handleChange('assento')}
+                                isInvalid={errors.assento}
                             />
+                            <div className="text-danger">{errors.assento}</div>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="preco">
                             <Form.Label>Preço</Form.Label>
@@ -95,7 +106,9 @@ export default function Page({ params }) {
                                 name="preco"
                                 value={values.preco}
                                 onChange={handleChange('preco')}
+                                isInvalid={errors.preco}
                             />
+                            <div className="text-danger">{errors.preco}</div>
                         </Form.Group>
                         <div className="text-center">
                             <Button onClick={handleSubmit} variant="success">
