@@ -2,6 +2,7 @@
 
 import Pagina from "@/app/components/Pagina";
 import apiLocalidade from "@/app/services/apiLocalidade";
+import AeroportoValidator from "@/app/validators/AeroportoValidator";
 import { Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,7 +18,7 @@ export default function Page({ params }) {
 
     const aeroportos = JSON.parse(localStorage.getItem('aeroportos')) || []
     const dados = aeroportos.find(item => item.id == params.id)
-    const aeroporto = dados || { nome: '', sigla: '', pais: 'Brasil', uf: '', cidade: '' }
+    const aeroporto = dados || { nome: '', sigla: '', pais: '', uf: '', cidade: '' }
 
     const [paises, setPaises] = useState([])
     const [ufs, setUfs] = useState([])
@@ -54,12 +55,14 @@ export default function Page({ params }) {
 
             <Formik
                 initialValues={aeroporto}
+                validationSchema={AeroportoValidator}
                 onSubmit={values => salvar(values)}
             >
                 {({
                     values,
                     handleChange,
                     handleSubmit,
+                    errors
                 }) => {
 
                     useEffect(() => {
@@ -82,7 +85,11 @@ export default function Page({ params }) {
                                     name="nome"
                                     value={values.nome}
                                     onChange={handleChange('nome')}
+                                    isInvalid={errors.nome}
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.nome}
+                                </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="sigla">
                                 <Form.Label>Sigla</Form.Label>
@@ -91,7 +98,9 @@ export default function Page({ params }) {
                                     name="sigla"
                                     value={values.sigla}
                                     onChange={handleChange('sigla')}
+                                    isInvalid={errors.sigla}
                                 />
+                                <div className="text-danger">{errors.sigla}</div>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="pais">
                                 <Form.Label>País</Form.Label>
@@ -99,6 +108,7 @@ export default function Page({ params }) {
                                     name="pais"
                                     value={values.pais}
                                     onChange={handleChange('pais')}
+                                    isInvalid={errors.pais}
                                 >
                                     <option value=''>Selecione</option>
                                     {paises.map(item => (
@@ -116,6 +126,7 @@ export default function Page({ params }) {
                                             name="uf"
                                             value={values.uf}
                                             onChange={handleChange('uf')}
+                                            isInvalid={errors.uf}
                                         >
                                             <option value=''>Selecione</option>
                                             {ufs.map(item => (
@@ -131,6 +142,7 @@ export default function Page({ params }) {
                                             name="cidade"
                                             value={values.cidade}
                                             onChange={handleChange('cidade')}
+                                            isInvalid={errors.cidade}
                                         >
                                             <option value=''>Selecione</option>
                                             {cidades.map(item => (
