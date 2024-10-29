@@ -1,69 +1,61 @@
-'use client';
+'use client'
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
-import { FaPlusCircle } from "react-icons/fa";
-import { FaRegEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import Pagina from "../components/Pagina";
+import { Col, Row } from "react-bootstrap";
+import { MdOutlineChair } from "react-icons/md";
+import { MdChair } from "react-icons/md";
 
-export default function Passagens() {
-    const [passagens, setPassagens] = useState([]);
+export default function Page() {
 
-    useEffect(() => {
-        setPassagens(JSON.parse(localStorage.getItem('passagens')) || []);
-    }, []);
+    const fileiras = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const colunas = ['A', 'B', 'C', 'D', 'E', 'F']
 
-    function excluir(id) {
-        if (confirm('Deseja realmente excluir o registro?')) {
-            const dados = passagens.filter(item => item.id !== id);
-            localStorage.setItem('passagens', JSON.stringify(dados));
-            setPassagens(dados);
-        }
-    }
+    const [selecionado, setSelecionado] = useState(['5A', '5B', '5C'])
+
+    const bloqueadas = [
+        '1A', '1B', '1C', 
+        '2A', '2B', '2C', 
+        '3C', '4C', '9F', 
+        '4F'
+    ]
 
     return (
-        <Pagina titulo="Passagens">
 
-            <Link
-                href="/passagens/form"
-                className="btn btn-primary mb-3"
-            >
-                <FaPlusCircle /> Novo
-            </Link>
-
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Passageiro</th>
-                        <th>Voo</th>
-                        <th>Assento</th>
-                        <th>Preço</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {passagens.map((item, i) => (
-                        <tr key={item.id}>
-                            <td>
-                                <Link href={`/passagens/form/${item.id}`}>
-                                    <FaRegEdit title="Editar" className="text-primary" />
-                                </Link>
-                                <MdDelete
-                                    title="Excluir"
-                                    className="text-danger"
-                                    onClick={() => excluir(item.id)}
-                                />
-                            </td>
-                            <td>{item.passageiro}</td>
-                            <td>{item.voo}</td>
-                            <td>{item.assento}</td>
-                            <td>{item.preco}</td>
-                        </tr>
+        <>
+            <div className="container mt-3" style={{ width: 500, background: '#f1f1f1' }}>
+                <p>Assento Selecionado: {selecionado}</p>
+                <Row>
+                    {colunas.map(coluna => (
+                        <>
+                            {['A', 'D'].includes(coluna) && <Col />}
+                            <Col>{coluna}</Col>
+                        </>
                     ))}
-                </tbody>
-            </Table>
-        </Pagina>
-    );
+                </Row>
+                {fileiras.map(fila => (
+                    <Row key={fila}>
+                        {colunas.map(coluna => (
+                            <>
+                                {coluna == 'A' && <Col>{fila}</Col>}
+                                {coluna == 'D' && <Col />}
+                                <Col>
+                                    {bloqueadas.includes(fila+coluna) ?
+                                    <MdChair style={{ fontSize: 40, color: '#ccc'}}/> :
+                                    (
+                                        selecionado.includes(fila+coluna) ?
+                                        <MdChair style={{ fontSize: 40, color: 'green' }}  /> : 
+                                        <MdOutlineChair onClick={()=>setSelecionado(fila+coluna)} style={{ fontSize: 40, color: '#000' }}  />
+                                    )
+                                    }
+                                </Col>
+                            </>
+                        ))}
+                    </Row>
+                ))}
+
+                <MdOutlineChair />
+                <MdChair />
+            </div>
+        </>
+    )
 }
